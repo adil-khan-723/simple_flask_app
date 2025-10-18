@@ -98,7 +98,7 @@ Note: API uses these to connect to Postgres; DB uses its own variables to initia
 - Final image uses the same python:3.11-slim base for compatibility.  
 
 Example snippet:
-```bash
+```
 FROM python:3.11-slim AS build
 WORKDIR /app
 RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
@@ -111,7 +111,7 @@ COPY --from=build /usr/local/lib/python3.11/site-packages /usr/local/lib/python3
 COPY app.py .
 EXPOSE 5001
 CMD ["python", "app.py"]
-
+```
 ---
 
 ## Docker Compose Features
@@ -124,25 +124,25 @@ CMD ["python", "app.py"]
 ---
 
 ## Example API Response
-
+```
 {
   "message": "Flask API is running",
   "db_version": "PostgreSQL 13.22 ..."
 }
-
+```
 ---
 
 ## Notes
 
 - The Adminer "role root does not exist" warning appears if the default login is used.  
 - Correct Adminer credentials:
-
+```
 System: PostgreSQL
 Server: db
 Username: user
 Password: password
 Database: testdb
-
+```
 - Healthchecks make the setup more production-like.  
 - No volumes defined; DB data will not persist across container removal.  
 
