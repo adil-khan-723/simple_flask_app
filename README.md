@@ -98,7 +98,7 @@ Note: API uses these to connect to Postgres; DB uses its own variables to initia
 - Final image uses the same python:3.11-slim base for compatibility.  
 
 Example snippet:
-
+```bash
 FROM python:3.11-slim AS build
 WORKDIR /app
 RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
