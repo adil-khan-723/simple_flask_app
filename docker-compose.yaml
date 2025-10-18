@@ -1,0 +1,37 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile_multistage
+        image: app:latest
+        container_name: api
+        ports:
+            - "5001:5001"
+        depends_on:
+            db:
+                condition: service_healthy
+        environment:
+            POSTGRES_DB: "testdb"
+            POSTGRES_USER: "user"
+            POSTGRES_PASSWORD: "password"
+            POSTGRES_HOST: "db"
+    db:
+        image: postgres:13
+        container_name: db
+        environment:
+            POSTGRES_USER: "user"
+            POSTGRES_PASSWORD: "password"
+            POSTGRES_DB: "testdb"
+        healthcheck: 
+            test: ["CMD-SHELL", "pg_isready", "-U", "user"]
+            interval: 10s
+            timeout: 5s
+            retries: 4
+            start_period: 10s
+    
+    adminer:
+        image: adminer:latest
+        container_name: adminer
+        ports: 
+            - "8080:8080"
+        
